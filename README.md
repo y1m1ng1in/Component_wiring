@@ -8,6 +8,7 @@ use --encode option and redirect std output to a file, then use a SAT solver to 
 usage: wiring.py [-h] [--encode] [--decode]
                  [--instance {inst-1.txt,inst-2.txt,inst-3.txt}]
                  [--solution {inst-1.sat,inst-2.sat,inst-3.sat}]
+                 [--write {soln-default.txt,soln-1.txt,soln-2.txt,soln-3.txt}]
 
 wiring problem
 
@@ -19,4 +20,6 @@ optional arguments:
                         choose a instance to solve
   --solution {inst-1.sat,inst-2.sat,inst-3.sat}, -s {inst-1.sat,inst-2.sat,inst-3.sat}
                         choose a solution to decode
+  --write {soln-default.txt,soln-1.txt,soln-2.txt,soln-3.txt}, -w {soln-default.txt,soln-1.txt,soln-2.txt,soln-3.txt}
+                        write solutions to a file
 ```

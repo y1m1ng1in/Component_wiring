@@ -146,16 +146,26 @@ class Decoder:
     self.solution = solution
     self.__read_file()
 
-  def decode(self):
+  def decode(self, filename=None):
     assert self.lits
+    result = []
     for pos in range(self.n):
       for comp in range(self.n):
         if self.preds.l(comp, pos) in self.lits:
           print('left', comp+1)
+          result.append([comp+1])
+    index = 0
     for pos in range(self.n):
       for comp in range(self.n):
         if self.preds.r(comp, pos) in self.lits:
           print('right', comp+1)
+          result[index].append(comp+1)
+          index += 1
+    if filename:
+      with open(filename, 'w') as f:
+        for comps in result:
+          f.write(str(comps[0]) + ' ' + str(comps[1]) + '\n')
+        f.close()
 
   def __read_file(self):
     with open(self.solution, 'r') as f:
@@ -177,6 +187,13 @@ solns = [
   'inst-3.sat'
 ]
 
+write_solns = [
+  'soln-default.txt',
+  'soln-1.txt',
+  'soln-2.txt',
+  'soln-3.txt'
+]
+
 parser = argparse.ArgumentParser(description="wiring problem")
 parser.add_argument('--encode', '-e', action="store_true", help="encode problem")
 parser.add_argument('--decode', '-d', action="store_true", help="decode problem")
@@ -192,6 +209,12 @@ parser.add_argument('--solution',
                     choices=solns,
                     default='soln-1.sat',
                     help="choose a solution to decode")
+parser.add_argument('--write',
+                    '-w',
+                    type=str,
+                    choices=write_solns,
+                    default=write_solns[0],
+                    help="write solutions to a file")
 
 args = parser.parse_args()
 
@@ -212,7 +235,7 @@ elif args.decode:
   else: 
     p = Predicate(8)
   d = Decoder(p, args.solution)
-  d.decode()
+  d.decode(filename=args.write)
 
 else:
   raise Exception("unsupported args")
